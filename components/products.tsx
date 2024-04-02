@@ -43,7 +43,7 @@ export default async function Products({
 
 function ProductCard({ product }: { product: Product }) {
   return (
-    <Card className="w-80 lg:max-w-60 w- lg:w-auto relative overflow-hidden flex flex-col justify-between">
+    <Card className="w-80 lg:max-w-60 lg:w-auto relative overflow-hidden flex flex-col justify-between">
       <CardContent className="mt-6">
         <div className="flex flex-col space-y-4">
           <Card className="relative aspect-square overflow-hidden">

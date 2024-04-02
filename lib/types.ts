@@ -7,4 +7,6 @@ export interface Product {
   category: string;
   rating: number;
   images: string[];
+  quantity: number;
+  total: number;
 }

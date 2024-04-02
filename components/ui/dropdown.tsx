@@ -42,7 +42,7 @@ export default function DropDown({ options }: { options: string[] }) {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Fruits</SelectLabel>
+            <SelectLabel>Cagetory</SelectLabel>
             {options.map((option) => (
               <SelectItem key={option} value={option}>
                 {formatCategory(option)}

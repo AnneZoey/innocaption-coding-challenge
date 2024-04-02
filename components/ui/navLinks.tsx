@@ -23,8 +23,8 @@ export default function NavLinks() {
             key={link.name}
             href={link.href}
             className={cn(
-              "flex h-[48px] grow hover:underline items-center justify-center gap-2 font-medium hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3 transition-colors duration-200 ease-in-out",
-              pathname === link.href ? " text-blue-600" : "text-gray-600"
+              "flex h-[48px] grow hover:underline items-center justify-center gap-2 font-medium hover:text-primary md:flex-none md:justify-start md:p-2 md:px-3 transition-colors duration-200 ease-in-out",
+              pathname === link.href ? "text-primary" : ""
             )}
           >
             {LinkIcon && <LinkIcon className="w-6" />}
