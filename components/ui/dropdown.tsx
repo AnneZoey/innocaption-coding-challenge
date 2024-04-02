@@ -36,7 +36,10 @@ export default function DropDown({ options }: { options: string[] }) {
 
   return (
     <div className="mb-6 w-auto">
-      <Select onValueChange={(e) => handleCategory(e)}>
+      <Select
+        defaultValue={searchParams.get("category")?.toString() || ""}
+        onValueChange={(e) => handleCategory(e)}
+      >
         <SelectTrigger className="gap-x-4">
           <SelectValue placeholder="Select A Category" />
         </SelectTrigger>

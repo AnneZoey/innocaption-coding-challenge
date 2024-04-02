@@ -10,4 +10,5 @@ export interface Product {
   quantity: number;
   total: number;
   thumbnail: string;
+  stock: number;
 }
