@@ -1,10 +1,11 @@
-import React from "react";
+"use client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FaStar, FaShoppingCart } from "react-icons/fa";
 import Image from "next/image";
 import { fetchProducts } from "@/lib/data";
 import { fetchByCategory } from "@/lib/data";
+import { useCartStore } from "@/lib/store";
 
 import {
   Card,
@@ -15,8 +16,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Product } from "@/lib/types";
+import { use, useEffect, useState } from "react";
 
-export default async function Products({
+export default function Products({
   searchTerm,
   currentPage,
   category,
@@ -25,11 +27,25 @@ export default async function Products({
   currentPage?: string;
   category?: string;
 }) {
+  const [products, setProducts] = useState<Product[]>([]);
   const page = parseInt(currentPage || "1", 10);
-  var products = await fetchProducts(page, searchTerm);
-  if (category) {
-    products = await fetchByCategory(category);
-  }
+  const zustandProducts = useCartStore((state) => state.products);
+
+  useEffect(() => {
+    const fetchProductsData = async () => {
+      let fetchedProducts = await fetchProducts(page, searchTerm);
+      if (category) {
+        fetchedProducts = await fetchByCategory(category);
+      }
+      setProducts(fetchedProducts);
+    };
+
+    fetchProductsData();
+  }, [searchTerm, currentPage, category]);
+
+  useEffect(() => {
+    console.log("Products in cart:", zustandProducts);
+  }, [zustandProducts]);
 
   if (!products || products.length === 0) return <div>No products found</div>;
   return (
@@ -42,6 +58,8 @@ export default async function Products({
 }
 
 function ProductCard({ product }: { product: Product }) {
+  const addProduct = useCartStore((state) => state.addProduct);
+
   return (
     <Card className="w-80 lg:max-w-60 lg:w-auto relative overflow-hidden flex flex-col justify-between">
       <CardContent className="mt-6">
@@ -72,7 +90,12 @@ function ProductCard({ product }: { product: Product }) {
             <span>{product.rating}</span>
           </div>
         )}
-        <Button className="gap-x-2">Add to Cart</Button>
+        <Button
+          className="gap-x-2"
+          onClick={() => addProduct(parseInt(product.id), 1)}
+        >
+          Add to Cart
+        </Button>
       </CardFooter>
     </Card>
   );
