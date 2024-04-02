@@ -14,9 +14,7 @@ export default async function Page({
   return (
     <main className="mt-16 p-10 flex flex-col justify-center items-center">
       <SearchBar />
-      <Suspense fallback={<ProductLoading />}>
-        <Products searchTerm={searchTerm} currentPage={currentPage} />
-      </Suspense>
+      <Products searchTerm={searchTerm} currentPage={currentPage} />
     </main>
   );
 }

@@ -46,8 +46,6 @@ export const useCartStore = create<CartStore>((set) => ({
   // Remove a product is basically setting the quantity to 0
   removeProduct: (id) =>
     set((state) => ({
-      products: state.products.map((product) =>
-        product.id === id ? { ...product, quantity: 0 } : product
-      ),
+      products: state.products.filter((product) => product.id !== id),
     })),
 }));

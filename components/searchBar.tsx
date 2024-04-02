@@ -23,7 +23,7 @@ const SearchBar = () => {
   }, 300);
 
   return (
-    <div className="flex justify-center items-center mb-6 space-x-4 w-[400px]">
+    <div className="flex justify-center items-center mb-6 space-x-4 md:w-[400px]">
       <FaMagnifyingGlass />
       <Input
         type="text"

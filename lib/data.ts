@@ -1,7 +1,7 @@
 import { unstable_noStore as noStore } from "next/cache";
+import { Product } from "./types";
 
 export async function fetchProducts(page: number, searchTerms?: string) {
-  noStore();
   // console.log("Fetching revenue data...");
   // await new Promise((resolve) => setTimeout(resolve, 3000));
   const skip = (page - 1) * 12;
@@ -22,8 +22,35 @@ export async function fetchProducts(page: number, searchTerms?: string) {
   }
 }
 
+export async function fetchTopProducts() {
+  try {
+    const products = await fetchProducts(1);
+    const topProducts = products
+      .filter((product: Product) => product.rating && product.rating >= 4) // Filter products with rating >= 4
+      .sort((a: Product, b: Product) => b.rating - a.rating) // Sort by rating (descending)
+      .slice(0, 4); // Get the top 4 products
+    return topProducts;
+  } catch (error) {
+    console.error("An error occurred while fetching the products:", error);
+    throw error;
+  }
+}
+
+export async function fetchProductById(id: number) {
+  try {
+    const res = await fetch(`https://dummyjson.com/products/${id}`);
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("An error occurred while fetching the product:", error);
+    throw error;
+  }
+}
+
 export async function fetchByCategory(category: string) {
-  noStore();
   try {
     const res = await fetch(
       `https://dummyjson.com/products/category/${category}`
@@ -40,7 +67,6 @@ export async function fetchByCategory(category: string) {
 }
 
 export async function fetchCategories() {
-  noStore();
   try {
     const res = await fetch("https://dummyjson.com/products/categories");
     if (!res.ok) {
@@ -60,12 +86,13 @@ interface cartProduct {
 }
 
 export async function fetchCart(cartProducts?: cartProduct[]) {
-  noStore();
   const mergeProducts = cartProducts || [];
   try {
     console.log("Fetching cart data...");
     // Just use id 1 for now
-    const res = await fetch("https://dummyjson.com/carts/1", {
+    // console.log("Fetching revenue data...");
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+    const res = await fetch("https://dummyjson.com/carts/20", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
