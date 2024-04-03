@@ -46,13 +46,10 @@ export default function Cart() {
     fetchCartData();
   }, [addedProducts]);
 
-  const handleChange = useDebouncedCallback(
-    (value: string, id: string) => {
-      const quantity = parseInt(value, 10);
-      modifyQuantity(parseInt(id), quantity);
-    },
-    300 // delay in ms
-  );
+  const handleChange = useDebouncedCallback((value: string, id: string) => {
+    const quantity = parseInt(value, 10);
+    modifyQuantity(parseInt(id), quantity);
+  }, 300);
 
   const products = cart.products;
   const addedProductIds = addedProducts.map((product) => product.id);

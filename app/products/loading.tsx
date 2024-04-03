@@ -1,4 +1,4 @@
-import ProductLoading from "@/components/ui/productLoading";
+import ProductLoading from "@/components/loading skeletons/productLoading";
 
 export default function Loading() {
   return (

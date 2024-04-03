@@ -2,7 +2,7 @@ import Products from "@/components/products";
 import { Suspense } from "react";
 import DropDown from "@/components/ui/dropdown";
 import { fetchCategories } from "@/lib/data";
-import ProductLoading from "@/components/ui/productLoading";
+import ProductLoading from "@/components/loading skeletons/productLoading";
 
 export default async function Page({
   searchParams,
