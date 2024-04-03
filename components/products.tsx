@@ -3,7 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FaStar, FaShoppingCart, FaEye } from "react-icons/fa";
 import Image from "next/image";
-import { fetchProducts, fetchTopProducts } from "@/lib/data";
+import {
+  fetchProducts,
+  fetchTopProducts,
+  fetchSimilarCategory,
+  fetchSearchProducts,
+} from "@/lib/data";
 import { fetchByCategory } from "@/lib/data";
 import { useCartStore } from "@/lib/store";
 import { useToast } from "@/components/ui/use-toast";
@@ -25,11 +30,13 @@ export default function Products({
   currentPage,
   category,
   mostRated,
+  similarCategory,
 }: {
   searchTerm?: string;
   currentPage?: string;
   category?: string;
   mostRated?: boolean;
+  similarCategory?: boolean;
 }) {
   const [products, setProducts] = useState<Product[]>([]);
   const page = parseInt(currentPage || "1", 10);
@@ -38,10 +45,13 @@ export default function Products({
   useEffect(() => {
     const fetchProductsData = async () => {
       let fetchedProducts = await fetchProducts(page, searchTerm);
-      if (category) {
+      if (similarCategory && category) {
+        fetchedProducts = await fetchSimilarCategory(category);
+      } else if (searchTerm) {
+        fetchedProducts = await fetchSearchProducts(searchTerm);
+      } else if (category) {
         fetchedProducts = await fetchByCategory(category);
-      }
-      if (mostRated) {
+      } else if (mostRated) {
         fetchedProducts = await fetchTopProducts();
       }
       setProducts(fetchedProducts);
